@@ -24,7 +24,6 @@ class Attention(nn.Module):
 
     @nn.compact
     def __call__(self, inputs):
-        print(inputs.shape)
         ch = inputs.shape[-1]
 
         theta = self.conv(inputs, ch // 8, 1, use_bias=False)

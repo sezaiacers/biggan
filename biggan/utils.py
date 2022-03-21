@@ -34,7 +34,7 @@ class SpectralNormalization(nn.Module):
         kernel = kernel.reshape(-1, kernel_shape[-1])
 
         u = self.variable('us', 'u',
-                          lambda s: jnp.ones(s, jnp.float32),
+                          nn.initializers.normal(stddev=1.0),
                           (kernel.shape[0], 1))
 
         spectral_norm, new_u = compute_spectral_norm(
@@ -57,8 +57,8 @@ def compute_spectral_norm(w,
         v = l2_normalize(jnp.dot(w.T, u, precision=precision))
         u = l2_normalize(jnp.dot(w, v, precision=precision))
 
-    jax.lax.stop_gradient(u)
-    jax.lax.stop_gradient(v)
+    u = jax.lax.stop_gradient(u)
+    v = jax.lax.stop_gradient(v)
 
     spectral_norm = jnp.dot(
         jnp.dot(u.T, w, precision=precision),
