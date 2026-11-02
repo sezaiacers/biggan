@@ -1,1 +1,1 @@
-Implementation of Biggan in Jax
+## Implementation of Biggan in Jax
